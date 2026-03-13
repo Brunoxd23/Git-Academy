@@ -1,0 +1,39 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Public profile and progress of a GitAcademy user",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "displayName": { "type": "string", "description": "User's name" },
+        "photoURL": { "type": "string", "description": "User's avatar URL" },
+        "xp": { "type": "integer", "description": "Total experience points" },
+        "completedLessons": { "type": "array", "items": { "type": "string" }, "description": "List of completed lesson titles" },
+        "achievements": { "type": "array", "items": { "type": "string" }, "description": "List of earned achievement IDs" },
+        "notifications": { 
+          "type": "array", 
+          "items": { 
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "type": { "type": "string" },
+              "message": { "type": "string" },
+              "timestamp": { "type": "string", "format": "date-time" },
+              "read": { "type": "boolean" }
+            }
+          },
+          "description": "List of user notifications"
+        },
+        "lastActive": { "type": "string", "format": "date-time", "description": "Last time the user was active" }
+      },
+      "required": ["uid", "displayName", "xp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile documents"
+    }
+  }
+}

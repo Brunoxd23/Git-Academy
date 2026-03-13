@@ -11,6 +11,7 @@ import {
   BarChart3, 
   Home, 
   ChevronRight, 
+  ChevronLeft,
   Play,
   CheckCircle2, 
   Github, 
@@ -318,7 +319,7 @@ export default function App() {
 
   return (
     <div className="flex h-screen bg-[#050505] text-zinc-300 font-sans selection:bg-emerald-500/30 overflow-hidden">
-      <Toaster position="top-right" theme="dark" richColors />
+      <Toaster position="top-right" theme="dark" richColors expand={true} />
       
       {/* Mobile Backdrop */}
       <AnimatePresence>
@@ -339,7 +340,15 @@ export default function App() {
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         ${!isSidebarOpen && 'lg:w-20'}
       `}>
-        <div className="h-full flex flex-col">
+        <div className="h-full flex flex-col relative">
+          {/* Desktop Sidebar Toggle - Floating on border */}
+          <button 
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="hidden lg:flex absolute -right-3 top-5 z-[60] w-6 h-6 bg-[#0D1117] border border-zinc-800 rounded-full items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all shadow-xl hover:scale-110"
+          >
+            {isSidebarOpen ? <ChevronLeft size={14} /> : <ChevronRight size={14} />}
+          </button>
+
           <div className={`p-6 flex items-center gap-3 ${!isSidebarOpen && 'lg:justify-center'}`}>
             <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center shrink-0">
               <GitBranch className="text-white" size={20} />
@@ -421,9 +430,6 @@ export default function App() {
             <button onClick={() => setIsMobileMenuOpen(true)} className="lg:hidden text-zinc-400 p-2 hover:bg-zinc-800 rounded-lg transition-colors">
               <Menu size={20} />
             </button>
-            <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="hidden lg:flex text-zinc-400 p-2 hover:bg-zinc-800 rounded-lg transition-colors">
-              <Menu size={20} />
-            </button>
             <div className="relative hidden md:block">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" size={16} />
               <input 
@@ -486,7 +492,7 @@ export default function App() {
                         <button 
                           onClick={() => {
                             setActiveSection('curriculum');
-                            setActiveLesson('O que é Controle de Versão?');
+                            setActiveLesson('Instalando o Git');
                           }} 
                           className="bg-white text-emerald-700 px-6 py-3 rounded-xl font-bold hover:bg-emerald-50 transition-all flex items-center gap-2"
                         >
@@ -496,18 +502,17 @@ export default function App() {
                     ) : (
                       <>
                         <h1 className="text-4xl font-bold leading-tight">Continue de onde você parou: <br/><span className="text-emerald-200">Seu Progresso Atual</span></h1>
-                        <p className="text-emerald-50/80">Você já completou {Math.round((completedLessons.length / 19) * 100)}% do curso. Mantenha o foco!</p>
+                        <p className="text-emerald-50/80">Você já completou {Math.round((completedLessons.length / 20) * 100)}% do curso. Mantenha o foco!</p>
                         <button 
                           onClick={() => {
                             setActiveSection('curriculum');
-                            // Find first incomplete lesson
-                            const allLessons = [
-                              'O que é Controle de Versão?', 'Instalando o Git', 'Configurando Identidade', 'Inicializando um Repositório',
-                              'O Ciclo de Vida dos Arquivos', 'git add: Preparando Mudanças', 'git commit: Gravando Histórico', 'git status: Verificando o Estado',
-                              'O que são Branches?', 'Criando e Trocando Branches', 'Fazendo Merge de Branches', 'Resolvendo Conflitos de Merge',
-                              'git remote: Conectando ao Mundo', 'git push: Enviando Mudanças', 'git pull: Recebendo Atualizações', 'Clonando Repositórios',
-                              'git log: Visualizando o Passado', 'git diff: Comparando Mudanças', 'git checkout: Viajando no Tempo'
-                            ];
+                            // Find first incomplete lesson from all modules
+                            const m1 = ['Instalando o Git', 'Configurando Identidade'];
+                            const m2 = ['O que é Controle de Versão?', 'Git vs SVN: As Diferenças', 'O Ciclo de Vida do Arquivo no Git', 'Primeiro Repositório: git init'];
+                            const m3 = ['Staging Area: O Coração do Git', 'git add: Preparando Mudanças', 'git commit: Registrando a História', 'git status e git log: Monitoramento', 'Desfazendo Alterações: git checkout e restore'];
+                            const m4 = ['O Poder das Branches', 'Criando e Alternando Branches', 'Merge: Unindo Histórias', 'Resolvendo Conflitos de Merge', 'Trabalhando com Repositórios Remotos'];
+                            const m5 = ['Git Rebase: Mantendo a História Limpa', 'Git Stash: Pausando o Trabalho', 'Git Cherry-pick: Escolhendo Commits', 'Git Bisect: Encontrando Bugs'];
+                            const allLessons = [...m1, ...m2, ...m3, ...m4, ...m5];
                             const nextLesson = allLessons.find(l => !completedLessons.includes(l)) || allLessons[0];
                             setActiveLesson(nextLesson);
                           }} 
@@ -526,22 +531,22 @@ export default function App() {
                     <h3 className="text-xl font-bold text-white">Lições Recomendadas</h3>
                     <div className="grid gap-4">
                       <LessonCard 
-                        title="O que é Controle de Versão?" 
+                        title="Instalando o Git" 
                         duration="5 min" 
                         xp="100" 
-                        status={completedLessons.includes('O que é Controle de Versão?') ? 'new' : 'new'} 
+                        status={completedLessons.includes('Instalando o Git') ? 'new' : 'new'} 
                         onClick={() => {
-                          setActiveLesson('O que é Controle de Versão?');
+                          setActiveLesson('Instalando o Git');
                           setActiveSection('curriculum');
                         }}
                       />
                       <LessonCard 
-                        title="git add: Preparando Mudanças" 
-                        duration="10 min" 
-                        xp="150" 
-                        status={completedLessons.includes('git add: Preparando Mudanças') ? 'new' : 'in-progress'} 
+                        title="Configurando Identidade" 
+                        duration="5 min" 
+                        xp="120" 
+                        status={completedLessons.includes('Configurando Identidade') ? 'new' : 'new'} 
                         onClick={() => {
-                          setActiveLesson('git add: Preparando Mudanças');
+                          setActiveLesson('Configurando Identidade');
                           setActiveSection('curriculum');
                         }}
                       />
@@ -615,13 +620,10 @@ export default function App() {
                       </div>
                       <div className="space-y-6">
                         <Module 
-                          title="Módulo 1: Fundamentos do Controle de Versão" 
+                          title="Módulo 1: Instalação e Configuração" 
                           lessons={[
-                            'O que é Controle de Versão?', 
-                            'Git vs SVN: As Diferenças', 
-                            'Instalação e Configuração Global', 
-                            'O Ciclo de Vida do Arquivo no Git',
-                            'Primeiro Repositório: git init'
+                            'Instalando o Git',
+                            'Configurando Identidade'
                           ]} 
                           completedLessons={completedLessons}
                           onStartLesson={(lesson) => setActiveLesson(lesson)}
@@ -629,7 +631,20 @@ export default function App() {
                           onToggle={() => setOpenModule(openModule === 0 ? null : 0)}
                         />
                         <Module 
-                          title="Módulo 2: O Fluxo de Trabalho Essencial" 
+                          title="Módulo 2: Fundamentos do Controle de Versão" 
+                          lessons={[
+                            'O que é Controle de Versão?', 
+                            'Git vs SVN: As Diferenças', 
+                            'O Ciclo de Vida do Arquivo no Git',
+                            'Primeiro Repositório: git init'
+                          ]} 
+                          completedLessons={completedLessons}
+                          onStartLesson={(lesson) => setActiveLesson(lesson)}
+                          isOpen={openModule === 1}
+                          onToggle={() => setOpenModule(openModule === 1 ? null : 1)}
+                        />
+                        <Module 
+                          title="Módulo 3: O Fluxo de Trabalho Essencial" 
                           lessons={[
                             'Staging Area: O Coração do Git',
                             'git add: Preparando Mudanças', 
@@ -639,11 +654,11 @@ export default function App() {
                           ]} 
                           completedLessons={completedLessons}
                           onStartLesson={(lesson) => setActiveLesson(lesson)}
-                          isOpen={openModule === 1}
-                          onToggle={() => setOpenModule(openModule === 1 ? null : 1)}
+                          isOpen={openModule === 2}
+                          onToggle={() => setOpenModule(openModule === 2 ? null : 2)}
                         />
                         <Module 
-                          title="Módulo 3: Branches e Colaboração" 
+                          title="Módulo 4: Branches e Colaboração" 
                           lessons={[
                             'O Poder das Branches',
                             'Criando e Alternando Branches', 
@@ -653,11 +668,11 @@ export default function App() {
                           ]} 
                           completedLessons={completedLessons}
                           onStartLesson={(lesson) => setActiveLesson(lesson)}
-                          isOpen={openModule === 2}
-                          onToggle={() => setOpenModule(openModule === 2 ? null : 2)}
+                          isOpen={openModule === 3}
+                          onToggle={() => setOpenModule(openModule === 3 ? null : 3)}
                         />
                         <Module 
-                          title="Módulo 4: Técnicas Avançadas" 
+                          title="Módulo 5: Técnicas Avançadas" 
                           lessons={[
                             'Git Rebase: Mantendo a História Limpa',
                             'Git Stash: Pausando o Trabalho', 
@@ -666,8 +681,8 @@ export default function App() {
                           ]} 
                           completedLessons={completedLessons}
                           onStartLesson={(lesson) => setActiveLesson(lesson)}
-                          isOpen={openModule === 3}
-                          onToggle={() => setOpenModule(openModule === 3 ? null : 3)}
+                          isOpen={openModule === 4}
+                          onToggle={() => setOpenModule(openModule === 4 ? null : 4)}
                         />
                       </div>
                     </motion.div>

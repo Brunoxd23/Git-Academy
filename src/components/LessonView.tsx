@@ -760,6 +760,85 @@ const LESSONS_DATA: Record<string, LessonContent> = {
         </div>
       </div>
     )
+  },
+  'Instalando o Git': {
+    title: 'Instalando o Git',
+    xp: 100,
+    content: (
+      <div className="space-y-6 text-zinc-300">
+        <p className="text-lg leading-relaxed">
+          O Git está disponível para Linux, macOS e Windows. A instalação é simples e direta.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="p-4 bg-zinc-900 rounded-xl border border-zinc-800">
+            <h5 className="text-white font-bold mb-2">Windows</h5>
+            <p className="text-xs text-zinc-500 mb-3">Baixe o instalador oficial "Git for Windows".</p>
+            <a href="https://git-scm.com/download/win" target="_blank" className="text-[10px] text-emerald-400 font-bold hover:underline">git-scm.com</a>
+          </div>
+          <div className="p-4 bg-zinc-900 rounded-xl border border-zinc-800">
+            <h5 className="text-white font-bold mb-2">macOS</h5>
+            <p className="text-xs text-zinc-500 mb-3">Use o Homebrew ou instale via Xcode.</p>
+            <code className="text-[10px] bg-black p-1 rounded text-emerald-400">brew install git</code>
+          </div>
+          <div className="p-4 bg-zinc-900 rounded-xl border border-zinc-800">
+            <h5 className="text-white font-bold mb-2">Linux</h5>
+            <p className="text-xs text-zinc-500 mb-3">Use o gerenciador de pacotes da sua distro.</p>
+            <code className="text-[10px] bg-black p-1 rounded text-emerald-400">sudo apt install git</code>
+          </div>
+        </div>
+
+        <div className="bg-emerald-500/10 border border-emerald-500/20 p-6 rounded-2xl">
+          <h4 className="text-white font-bold mb-2">Verificando a instalação</h4>
+          <p className="text-sm text-zinc-400 mb-3">Abra seu terminal e digite:</p>
+          <div className="bg-black p-3 rounded-xl font-mono text-sm text-emerald-400 border border-zinc-800">
+            git --version
+          </div>
+        </div>
+      </div>
+    )
+  },
+  'Configurando Identidade': {
+    title: 'Configurando Identidade',
+    xp: 120,
+    content: (
+      <div className="space-y-6 text-zinc-300">
+        <p className="text-lg leading-relaxed">
+          Agora que o Git está instalado, você precisa configurar seu nome e e-mail. Isso é fundamental para que seus commits sejam identificados corretamente.
+        </p>
+
+        <div className="space-y-4">
+          <h4 className="text-white font-bold flex items-center gap-2">
+            <Settings className="text-emerald-400" size={20} />
+            Configuração Global
+          </h4>
+          <div className="bg-black rounded-xl p-4 font-mono text-sm border border-zinc-800 space-y-3">
+            <div>
+              <p className="text-zinc-500"># Seu nome (aparecerá nos commits)</p>
+              <p className="text-emerald-400">git config --global user.name <span className="text-zinc-300">"Seu Nome"</span></p>
+            </div>
+            <div>
+              <p className="text-zinc-500"># Seu e-mail (de preferência o do GitHub)</p>
+              <p className="text-emerald-400">git config --global user.email <span className="text-zinc-300">"seu@email.com"</span></p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-zinc-900/50 border border-zinc-800 p-6 rounded-2xl">
+          <h4 className="text-white font-bold mb-2">Por que isso importa?</h4>
+          <p className="text-sm text-zinc-400">
+            O Git anexa essas informações a cada commit que você faz. Se você colaborar em projetos open source, as pessoas saberão quem contribuiu com aquele código.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h4 className="text-white font-bold">Listando configurações</h4>
+          <div className="bg-black rounded-xl p-4 font-mono text-sm border border-zinc-800">
+            <p className="text-emerald-400">git config --list</p>
+          </div>
+        </div>
+      </div>
+    )
   }
 };
 
@@ -788,10 +867,11 @@ export function LessonView({ lessonTitle, onBack, onComplete }: LessonViewProps)
 
   // Determine module based on lesson title (simplified for demo)
   const getModuleLabel = (title: string) => {
-    if (['O que é Controle de Versão?', 'Git vs SVN: As Diferenças', 'Instalação e Configuração Global', 'O Ciclo de Vida do Arquivo no Git', 'Primeiro Repositório: git init'].includes(title)) return 'Módulo 1';
-    if (['Staging Area: O Coração do Git', 'git add: Preparando Mudanças', 'git commit: Registrando a História', 'git status e git log: Monitoramento', 'Desfazendo Alterações: git checkout e restore'].includes(title)) return 'Módulo 2';
-    if (['O Poder das Branches', 'Criando e Alternando Branches', 'Merge: Unindo Histórias', 'Resolvendo Conflitos de Merge', 'Trabalhando com Repositórios Remotos'].includes(title)) return 'Módulo 3';
-    return 'Módulo 4';
+    if (['Instalando o Git', 'Configurando Identidade'].includes(title)) return 'Módulo 1';
+    if (['O que é Controle de Versão?', 'Git vs SVN: As Diferenças', 'Instalação e Configuração Global', 'O Ciclo de Vida do Arquivo no Git', 'Primeiro Repositório: git init'].includes(title)) return 'Módulo 2';
+    if (['Staging Area: O Coração do Git', 'git add: Preparando Mudanças', 'git commit: Registrando a História', 'git status e git log: Monitoramento', 'Desfazendo Alterações: git checkout e restore'].includes(title)) return 'Módulo 3';
+    if (['O Poder das Branches', 'Criando e Alternando Branches', 'Merge: Unindo Histórias', 'Resolvendo Conflitos de Merge', 'Trabalhando com Repositórios Remotos'].includes(title)) return 'Módulo 4';
+    return 'Módulo 5';
   };
 
   return (
