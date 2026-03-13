@@ -122,4 +122,10 @@ async function testConnection() {
     }
   }
 }
-testConnection();
+// Run a quick connection test only during development to avoid throwing
+// errors during production module initialization (which can lead to a white screen).
+if (import.meta.env.DEV) {
+  testConnection().catch((err) =>
+    console.warn("Firebase connection test failed:", err),
+  );
+}
